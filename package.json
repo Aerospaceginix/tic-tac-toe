@@ -1,0 +1,12 @@
+{
+  "name": "tic-tac-toe-pro",
+  "version": "1.0.0",
+  "description": "A vibrant Tic Tac Toe game with a Node.js server",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.22.2"
+  }
+}

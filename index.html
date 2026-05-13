@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Tic Tac Toe</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            --cell-bg: rgba(255, 255, 255, 0.1);
+            --text-color: #ffffff;
+            --x-color: #ff3c7e;
+            --o-color: #00f2ff;
+        }
+
+        body {
+            font-family: "Segoe UI", sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            color: var(--text-color);
+            overflow: hidden;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5), 0 0 20px rgba(255,255,255,0.3);
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .status {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            padding: 15px 40px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 120px);
+            gap: 15px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cell {
+            width: 120px;
+            height: 120px;
+            background: var(--cell-bg);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cell:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+        }
+
+        .cell.x { color: var(--x-color); text-shadow: 0 0 15px var(--x-color); }
+        .cell.o { color: var(--o-color); text-shadow: 0 0 15px var(--o-color); }
+
+        .btn {
+            margin-top: 40px;
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            background: #fff;
+            color: #333;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>TIC TAC TOE</h1>
+    <div id="status" class="status">Ready Player X</div>
+    <div class="board" id="board"></div>
+    <button class="btn" onclick="location.reload()">RESTART GAME</button>
+    <script>
+        const b=document.getElementById("board"),s=document.getElementById("status");
+        let p="X",g=["","","","","","","","",""],a=!0;
+        for(let i=0; i<9; i++){
+            const c=document.createElement("div");
+            c.className="cell";
+            c.onclick=()=>{
+                if(g[i]||!a) return;
+                g[i]=p;
+                c.innerText=p;
+                c.classList.add(p.toLowerCase());
+                if(check()){
+                    s.innerText="PLAYER " + p + " VICTORIOUS!";
+                    a=!1;
+                    s.style.background = p==="X"?"#ff3c7e":"#00f2ff";
+                    s.style.color = "#fff";
+                } else if(!g.includes("")){
+                    s.innerText="WARRIORS DRAW!";
+                    a=!1;
+                } else {
+                    p=p==="X"?"O":"X";
+                    s.innerText="PLAYER " + p + " TURN";
+                }
+            };
+            b.appendChild(c);
+        }
+        function check(){
+            const w=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+            return w.some(x=>g[x[0]]&&g[x[0]]===g[x[1]]&&g[x[0]]===g[x[2]]);
+        }
+    </script>
+</body>
+</html>
